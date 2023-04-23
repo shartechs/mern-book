@@ -8,16 +8,16 @@ const bookSchema = new Schema(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-      required: false,
-    },
     category: {
       type: String,
       required: true,
     },
-    read: {
-      type: Boolean,
+    description: {
+      type: String,
+      required: false,
+    },
+    status: {
+      type: String,
       required: true,
     },
   },

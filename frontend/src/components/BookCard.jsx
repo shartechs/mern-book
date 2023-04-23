@@ -14,7 +14,7 @@ const BookCard = ({ book }) => {
       </p>
       <p>
         <strong>status: </strong>
-        {book.read ? "Read" : "Must Read"}
+        {book.status}
       </p>
     </div>
   );

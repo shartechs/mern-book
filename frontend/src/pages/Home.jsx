@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "../components/BookCard";
+import BookForm from "../components/BookForm";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -23,8 +24,10 @@ const Home = () => {
     <div className="home">
       <div className="books">
         {" "}
-        {books && books.map((book) => <BookCard book={book} />)}
+        {books &&
+          books.map((book, index) => <BookCard key={index} book={book} />)}
       </div>
+      <BookForm />
     </div>
   );
 };
