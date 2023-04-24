@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { BooksContext } from "../contexts/BooksContext";
 
 const BookForm = () => {
+  const { dispatch } = useContext(BooksContext);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -23,12 +25,12 @@ const BookForm = () => {
     if (!response.ok) {
       setError(json.error);
     } else {
+      dispatch({ type: "CREATE_BOOK", payload: json });
       setError(null);
       setTitle("");
       setCategory("");
       setDescription("");
       setStatus("");
-      console.log("added the book", json);
     }
   };
 

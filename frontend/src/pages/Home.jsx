@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import BookCard from "../components/BookCard";
 import BookForm from "../components/BookForm";
+import { BooksContext } from "../contexts/BooksContext";
 
 const Home = () => {
-  const [books, setBooks] = useState([]);
+  const { books, dispatch } = useContext(BooksContext);
 
   useEffect(() => {
     const getBooks = async () => {
@@ -11,14 +12,14 @@ const Home = () => {
       const json = await response.json();
 
       try {
-        setBooks(json);
+        dispatch({ type: "SET_BOOKS", payload: json });
       } catch (error) {
         console.error(error);
       }
     };
 
     getBooks();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="home">
