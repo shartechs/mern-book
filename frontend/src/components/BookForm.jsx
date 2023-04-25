@@ -29,7 +29,7 @@ const BookForm = () => {
     } else {
       dispatch({ type: "CREATE_BOOK", payload: addedBook });
       setError(null);
-      setEmptyFields(null);
+      setEmptyFields([]);
       setTitle("");
       setCategory("");
       setDescription("");
