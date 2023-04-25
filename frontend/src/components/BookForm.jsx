@@ -8,6 +8,7 @@ const BookForm = () => {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Want to Read");
   const [error, setError] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const statuses = ["Want to Read", "Read", "Currently Reading"];
 
@@ -21,12 +22,14 @@ const BookForm = () => {
         "Content-Type": "application/json",
       },
     });
-    const json = await response.json();
+    const addedBook = await response.json();
     if (!response.ok) {
-      setError(json.error);
+      setError(addedBook.error);
+      setEmptyFields(addedBook.emptyFields);
     } else {
-      dispatch({ type: "CREATE_BOOK", payload: json });
+      dispatch({ type: "CREATE_BOOK", payload: addedBook });
       setError(null);
+      setEmptyFields(null);
       setTitle("");
       setCategory("");
       setDescription("");
@@ -42,6 +45,7 @@ const BookForm = () => {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className={emptyFields.includes("title") ? "error" : ""}
         />
       </label>
       <label>
@@ -50,6 +54,7 @@ const BookForm = () => {
           type="text"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          className={emptyFields.includes("category") ? "error" : ""}
         />
       </label>
       <label>
@@ -62,7 +67,11 @@ const BookForm = () => {
       </label>
       <label>
         Status:
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className={emptyFields.includes("Status") ? "error" : ""}
+        >
           {statuses.map((status, index) => (
             <option key={index} value={status}>
               {status}

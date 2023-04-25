@@ -26,6 +26,23 @@ const getBook = async (req, res) => {
 // Add new book
 const addBook = async (req, res) => {
   const { title, description, category, status } = req.body;
+  const emptyFields = [];
+
+  if (!title) {
+    emptyFields.push("title");
+  }
+  if (!category) {
+    emptyFields.push("category");
+  }
+  if (!status) {
+    emptyFields.push("status");
+  }
+
+  if (emptyFields.length > 0) {
+    return res
+      .status(400)
+      .json({ error: "Please fill in all the fields", emptyFields });
+  }
 
   try {
     const book = await Book.create({ title, description, category, status });
