@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { BooksContext } from "../contexts/BooksContext";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const BookCard = ({ book }) => {
   const { dispatch } = useContext(BooksContext);
@@ -30,7 +31,14 @@ const BookCard = ({ book }) => {
         <strong>status: </strong>
         {book.status}
       </p>
-      <button onClick={onDelete}>Delete</button>
+      <p>
+        {" "}
+        <strong>Added: </strong>
+        {formatDistanceToNow(new Date(book.createdAt), { addSuffix: true })}
+      </p>
+      <button className="material-symbols-outlined" onClick={onDelete}>
+        Delete
+      </button>
     </div>
   );
 };
