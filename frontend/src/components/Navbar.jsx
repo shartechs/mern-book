@@ -6,6 +6,12 @@ const Navbar = () => {
     <header>
       <div className="container">
         <Link to="/">MERN BOOK</Link>
+        <nav>
+          <div>
+            <Link to="/signup">Signup</Link>
+            <Link to="/login">Login</Link>
+          </div>
+        </nav>
       </div>
     </header>
   );
