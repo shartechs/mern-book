@@ -9,6 +9,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     signup(email, password);
+    setEmail("");
+    setPassword("");
   };
 
   return (
