@@ -1,12 +1,20 @@
 import React, { useContext } from "react";
 import { BooksContext } from "../contexts/BooksContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const BookCard = ({ book }) => {
   const { dispatch } = useContext(BooksContext);
+  const { user } = useAuthContext();
   const onDelete = async () => {
+    if (!user) {
+      return;
+    }
     const response = await fetch(`/api/books/${book._id}`, {
       method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${user.token}`,
+      },
     });
     const deletedBook = await response.json();
     try {

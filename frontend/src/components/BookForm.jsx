@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { BooksContext } from "../contexts/BooksContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const BookForm = () => {
   const { dispatch } = useContext(BooksContext);
@@ -9,17 +10,23 @@ const BookForm = () => {
   const [status, setStatus] = useState("Want to Read");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+  const { user } = useAuthContext;
 
   const statuses = ["Want to Read", "Read", "Currently Reading"];
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
     const book = { title, category, description, status };
     const response = await fetch("/api/books", {
       method: "POST",
       body: JSON.stringify(book),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${user.token}`,
       },
     });
     const addedBook = await response.json();
