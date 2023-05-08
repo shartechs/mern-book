@@ -10,11 +10,12 @@ const BookForm = () => {
   const [status, setStatus] = useState("Want to Read");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  const { user } = useAuthContext;
+  const { user } = useAuthContext();
 
   const statuses = ["Want to Read", "Read", "Currently Reading"];
 
   const onSubmit = async (e) => {
+    console.log(user);
     e.preventDefault();
     if (!user) {
       setError("You must be logged in");

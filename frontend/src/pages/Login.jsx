@@ -35,7 +35,7 @@ const Login = () => {
       <button disabled={isLoading} type="submit">
         Log In
       </button>
-      {error && <div>{error}</div>}
+      {error && <div className="error">{error}</div>}
     </form>
   );
 };
