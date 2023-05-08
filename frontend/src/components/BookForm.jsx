@@ -31,9 +31,11 @@ const BookForm = () => {
       },
     });
     const addedBook = await response.json();
-    if (!response.ok) {
+    if (!response.ok && addedBook.emptyFields) {
       setError(addedBook.error);
       setEmptyFields(addedBook.emptyFields);
+    } else if (!response.ok) {
+      setError(addedBook.error);
     } else {
       dispatch({ type: "CREATE_BOOK", payload: addedBook });
       setError(null);
