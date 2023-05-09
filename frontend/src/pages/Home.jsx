@@ -6,7 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import FilterMenu from "../components/FilterMenu";
 
 const Home = () => {
-  const { books, dispatch } = useContext(BooksContext);
+  const { filteredBooks, dispatch } = useContext(BooksContext);
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -31,8 +31,10 @@ const Home = () => {
     <div className="home">
       <div className="books">
         <FilterMenu />
-        {books &&
-          books.map((book, index) => <BookCard key={index} book={book} />)}
+        {filteredBooks &&
+          filteredBooks.map((book, index) => (
+            <BookCard key={index} book={book} />
+          ))}
       </div>
       <BookForm />
     </div>

@@ -10,11 +10,14 @@ export const booksReducer = (state, action) => {
         filteredBooks: action.payload,
       };
     case "FILTER_BOOKS":
-      return {
-        filteredBooks: state.books.filter(
-          (book) => book.status === action.payload
-        ),
-      };
+      const filteredBooks =
+        action.payload === "All"
+          ? state.books
+          : state.books.filter(
+              (book) =>
+                book.status.toLowerCase() === action.payload.toLowerCase()
+            );
+      return { ...state, filteredBooks };
     case "CREATE_BOOK":
       return {
         books: [action.payload, ...state.books],
@@ -33,6 +36,8 @@ export const BooksContextProvider = ({ children }) => {
     books: null,
     filteredBooks: null,
   });
+  console.log("book-state", state);
+
   return (
     <BooksContext.Provider value={{ ...state, dispatch }}>
       {children}

@@ -43,7 +43,7 @@ const BookForm = () => {
       setTitle("");
       setCategory("");
       setDescription("");
-      setStatus("");
+      setStatus("Want to Read");
     }
   };
 
