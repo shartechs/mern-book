@@ -3,6 +3,7 @@ import BookCard from "../components/BookCard";
 import BookForm from "../components/BookForm";
 import { BooksContext } from "../contexts/BooksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import FilterMenu from "../components/FilterMenu";
 
 const Home = () => {
   const { books, dispatch } = useContext(BooksContext);
@@ -29,6 +30,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="books">
+        <FilterMenu />
         {books &&
           books.map((book, index) => <BookCard key={index} book={book} />)}
       </div>

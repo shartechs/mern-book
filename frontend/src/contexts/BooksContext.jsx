@@ -7,6 +7,13 @@ export const booksReducer = (state, action) => {
     case "SET_BOOKS":
       return {
         books: action.payload,
+        filteredBooks: action.payload,
+      };
+    case "FILTER_BOOKS":
+      return {
+        filteredBooks: state.books.filter(
+          (book) => book.status === action.payload
+        ),
       };
     case "CREATE_BOOK":
       return {
@@ -24,6 +31,7 @@ export const booksReducer = (state, action) => {
 export const BooksContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(booksReducer, {
     books: null,
+    filteredBooks: null,
   });
   return (
     <BooksContext.Provider value={{ ...state, dispatch }}>
