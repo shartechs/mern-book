@@ -31,10 +31,15 @@ const Home = () => {
     <div className="home">
       <div className="books">
         <FilterMenu />
-        {filteredBooks &&
+        {filteredBooks && filteredBooks.length > 0 ? (
           filteredBooks.map((book, index) => (
             <BookCard key={index} book={book} />
-          ))}
+          ))
+        ) : (
+          <div className="flex justify-center items-center h-full">
+            The current list is empty.
+          </div>
+        )}
       </div>
       <BookForm />
     </div>

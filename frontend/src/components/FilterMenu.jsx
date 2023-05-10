@@ -11,9 +11,13 @@ const FilterMenu = () => {
   }, [filter, dispatch]);
 
   return (
-    <div>
+    <div className="flex w-full justify-evenly">
       {filters.map((filter, index) => (
-        <button key={index} onClick={() => setFilter(filter)}>
+        <button
+          className={"hover:text-[var(--primary)]"}
+          key={index}
+          onClick={() => setFilter(filter)}
+        >
           {filter}
         </button>
       ))}
