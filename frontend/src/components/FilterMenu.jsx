@@ -11,7 +11,7 @@ const FilterMenu = () => {
   }, [filter, dispatch]);
 
   return (
-    <div className="flex w-full justify-evenly">
+    <div className="flex w-full justify-evenly pb-[20px]">
       {filters.map((filter, index) => (
         <button
           className={"hover:text-[var(--primary)]"}

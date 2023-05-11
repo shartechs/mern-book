@@ -90,7 +90,12 @@ const BookForm = () => {
         </select>
       </label>
       {error && <div className="error">{error}</div>}
-      <button type="submit">Add a Book</button>
+      <button className="group relative px-[15px] py-[10px] overflow-hidden rounded-[4px] bg-white text-lg shadow">
+        <div className="absolute inset-0 w-3 bg-[var(--primary)] transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+        <span className="relative text-black group-hover:text-white">
+          Add Book
+        </span>
+      </button>
     </form>
   );
 };
