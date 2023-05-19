@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { BooksContext } from "../contexts/BooksContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -6,6 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const BookCard = ({ book }) => {
   const { dispatch } = useContext(BooksContext);
   const { user } = useAuthContext();
+  const progressArray = ["Want to Read", "Currently Reading", "Read"];
   const onDelete = async () => {
     if (!user) {
       return;
@@ -24,6 +25,25 @@ const BookCard = ({ book }) => {
     }
   };
 
+  const onProgressChange = async (e) => {
+    const updatedBook = { ...book, status: e.target.value };
+    console.log("updatedBook", updatedBook);
+    const response = fetch(`/api/books/${book._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${user.token}`,
+      },
+      body: JSON.stringify(updatedBook),
+    });
+
+    try {
+      dispatch({ type: "UPDATE_BOOK", payload: updatedBook });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="book-card">
       <h4>{book.title}</h4>
@@ -36,8 +56,18 @@ const BookCard = ({ book }) => {
         {book.description}
       </p>
       <p>
-        <strong>status: </strong>
-        {book.status}
+        <strong>Progress: </strong>
+        <select onChange={(e) => onProgressChange(e)}>
+          {progressArray.map((progress, index) => (
+            <option
+              key={index}
+              value={progress}
+              selected={progress == book.status}
+            >
+              {progress}
+            </option>
+          ))}
+        </select>
       </p>
       <p>
         {" "}

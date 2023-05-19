@@ -20,6 +20,7 @@ export const AuthContextProvider = ({ children }) => {
   });
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return;
     var token = user.token;
     var decoded = jwt_decode(token);
     let tokenExpirationDate = new Date(decoded.exp * 1000);

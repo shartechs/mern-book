@@ -2,29 +2,51 @@ import { createContext, useReducer } from "react";
 
 export const BooksContext = createContext();
 
+const applyFilter = (books, filter) => {
+  return filter === "All"
+    ? books
+    : books.filter(
+        (book) => book.status.toLowerCase() === filter.toLowerCase()
+      );
+};
+
 export const booksReducer = (state, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case "SET_BOOKS":
       return {
-        books: action.payload,
-        filteredBooks: action.payload,
+        ...state,
+        books: payload,
+        filteredBooks: payload,
       };
     case "FILTER_BOOKS":
-      const filteredBooks =
-        action.payload === "All"
-          ? state.books
-          : state.books.filter(
-              (book) =>
-                book.status.toLowerCase() === action.payload.toLowerCase()
-            );
-      return { ...state, filteredBooks };
+      return {
+        ...state,
+        filteredBooks: applyFilter(state.books, payload),
+        filter: payload,
+      };
     case "CREATE_BOOK":
       return {
-        books: [action.payload, ...state.books],
+        ...state,
+        books: [payload, ...state.books],
+        filteredBooks: applyFilter([payload, ...state.books], state.filter),
       };
     case "DELETE_BOOK":
       return {
-        books: state.books.filter((book) => book._id !== action.payload._id),
+        books: state.books.filter((book) => book._id !== payload._id),
+        filteredBooks: applyFilter(
+          state.books.filter((book) => book._id !== payload._id),
+          state.filter
+        ),
+      };
+    case "UPDATE_BOOK":
+      const updatedBooks = state.books.map((book) =>
+        book._id === payload._id ? payload : book
+      );
+      return {
+        ...state,
+        books: updatedBooks,
+        filteredBooks: applyFilter(updatedBooks, state.filter),
       };
     default:
       return state;
@@ -35,6 +57,7 @@ export const BooksContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(booksReducer, {
     books: null,
     filteredBooks: null,
+    filter: "ALL",
   });
   console.log("book-state", state);
 

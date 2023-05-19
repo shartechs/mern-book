@@ -80,7 +80,13 @@ const updateBook = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).json({ error: "No such book found" });
 
-  const book = await Book.findOneAndUpdate({ _id: id }, { ...req.body });
+  console.log(req.body);
+
+  const book = await Book.findOneAndUpdate(
+    { _id: id },
+    { ...req.body },
+    { new: true }
+  );
 
   if (!book) return res.status(400).json({ error: "No such book found" });
   res.status(200).json(book);

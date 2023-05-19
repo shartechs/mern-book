@@ -1,24 +1,23 @@
-import { useState, useEffect } from "react";
 import { useBooksContext } from "../hooks/useBooksContext";
 
 const FilterMenu = () => {
-  const filters = ["All", "Want to Read", "Read", "Currently Reading"];
-  const [filter, setFilter] = useState("All");
-  const { dispatch } = useBooksContext();
-
-  useEffect(() => {
-    dispatch({ type: "FILTER_BOOKS", payload: filter });
-  }, [filter, dispatch]);
+  const labels = ["All", "Want to Read", "Read", "Currently Reading"];
+  const { filter, dispatch } = useBooksContext();
+  console.log(filter);
 
   return (
     <div className="flex w-full justify-evenly pb-[20px]">
-      {filters.map((filter, index) => (
+      {labels.map((label, index) => (
         <button
-          className={"hover:text-[var(--primary)]"}
+          className={
+            filter === label
+              ? "text-[var(--primary)] hover:text-[var(--primary)]"
+              : "hover:text-[var(--primary)]"
+          }
           key={index}
-          onClick={() => setFilter(filter)}
+          onClick={() => dispatch({ type: "FILTER_BOOKS", payload: label })}
         >
-          {filter}
+          {label}
         </button>
       ))}
     </div>
